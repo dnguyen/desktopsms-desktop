@@ -1,0 +1,16 @@
+{
+	"name" : "DesktopSMS",
+	"main" : "index.html",
+	"window" : {
+		"toolbar": true,
+		"width": 800,
+		"height" : 500,
+		"resizable": true
+	},
+	"dependencies" : {
+		"request" : "latest",
+		"socket.io" : "latest",
+		"lodash" : "latest"
+	}
+
+}

@@ -1,0 +1,39 @@
+.threads {
+	position: fixed;
+	width: 250px;
+	height: 100%;
+	background: #EEE;
+}
+
+.thread { 
+	cursor: pointer;
+}
+
+.main-container {
+	margin: 0 0 0 250px;
+	padding: 15px;
+}
+
+.messages {
+	height: 350px;
+	overflow-y: scroll;
+}
+
+.send-bar {
+	margin: 15px 0 0 0;
+}
+
+.recv-msg, .sent-msg {
+	height: 50px;
+	background: #EEE;
+	margin: 0 0 10px 0;
+	padding: 10px;
+}
+
+.recv-msg {
+	text-align: left;
+}
+
+.sent-msg {
+	text-align: right;
+}
