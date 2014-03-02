@@ -2,25 +2,41 @@
 	position: fixed;
 	width: 250px;
 	height: 100%;
+	overflow-y: scroll;
 	background: #EEE;
 }
 
-.thread { 
+.thread {
 	cursor: pointer;
+	height: 50px;
+	border-bottom: 1px solid #D6D4D4;
+	padding: 15px;
 }
 
 .main-container {
 	margin: 0 0 0 250px;
-	padding: 15px;
 }
 
 .messages {
-	height: 350px;
-	overflow-y: scroll;
+	height: 100%;
+	padding: 10px 10px 50px 10px;
+}
+
+.message {
+	background: #FFF;
+	border: 1px solid #EEE;
+	margin: 0 0 15px 0;
+	padding: 15px;
 }
 
 .send-bar {
-	margin: 15px 0 0 0;
+	position: fixed;
+	bottom: 0;
+	z-index: 1000;
+	padding: 8px;
+	height: 50px;
+	background: #EEE;
+	border-top: 1px solid #DDD;
 }
 
 .recv-msg, .sent-msg {

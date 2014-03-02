@@ -16,7 +16,7 @@
 		}
 	}
 */
-//todo: MAJOR refactoring...just a proof of concept for not.
+//todo: MAJOR refactoring...just a proof of concept for now.
 $(document).ready(function() {
 
 	// Find the computer's local ip address to bind to.
@@ -32,9 +32,11 @@ $(document).ready(function() {
 	    }
 	  });
 	}
+	console.log(networkInterfaces);
 	console.log('Create server at ' + networkInterfaces[0] + ":3005");
-	var app = require('http').createServer()
-		app.listen(3005, networkInterfaces[0]);
+	var app = require('http').createServer();
+	app.listen(3005, '192.168.0.100');
+		//app.listen(3005, networkInterfaces[0]);
 
 	var io = require('socket.io').listen(app),
 		fs = require('fs'),
@@ -52,6 +54,7 @@ $(document).ready(function() {
 				if (!threads[message.thread_id]) {
 					threads[message.thread_id] = {
 						id: message.thread_id,
+						address: message.address,
 						messages: []
 					};
 				}
@@ -69,6 +72,27 @@ $(document).ready(function() {
 			console.group('Finished building threads data structure');
 			console.log(threads);
 			console.groupEnd();
+
+			var threadsHtml = "";
+			_.each(threads, function(thread) {
+				threadsHtml += '<div class="thread" data-threadid="' + thread.id + '">' + thread.address + '</div>';
+			});
+			$('.threads').append(threadsHtml);
+
+			$('.thread').on('click', function(e) {
+				var thread = threads[$(this).attr('data-threadid')];
+				console.log('clicked thread');
+				console.log(thread);
+				var messagesHtml = "";
+				_.each(thread.messages.reverse(), function(message) {
+					messagesHtml += '<div class="message"><div class="text">' + message.message + '</div></div>'
+				});
+				$('.messages').html('');
+				$('.messages').append(messagesHtml);
+
+				window.scrollTo(0, document.body.scrollHeight);
+			});
+
 		});
 	});
 });
