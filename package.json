@@ -8,8 +8,7 @@
 		"resizable": true
 	},
 	"dependencies" : {
-		"request" : "latest",
-		"socket.io" : "latest",
+		"ws" : "latest",
 		"lodash" : "latest"
 	}
 

@@ -1,3 +1,4 @@
+
 .threads {
 	position: fixed;
 	width: 250px;
@@ -20,6 +21,7 @@
 .messages {
 	height: 100%;
 	padding: 10px 10px 50px 10px;
+	overflow-y: scroll;
 }
 
 .message {
@@ -27,6 +29,13 @@
 	border: 1px solid #EEE;
 	margin: 0 0 15px 0;
 	padding: 15px;
+	clear: both;
+	float: left;
+}
+
+.message.sent {
+	background: #E3FFDE;
+	float: right;
 }
 
 .send-bar {
