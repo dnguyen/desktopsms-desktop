@@ -25,12 +25,13 @@
 }
 
 .message {
-	background: #FFF;
-	border: 1px solid #EEE;
+	float: left;
 	margin: 0 0 15px 0;
 	padding: 15px;
 	clear: both;
-	float: left;
+	background: #FFF;
+	border: 1px solid #EEE;
+	border-radius: 4px;
 }
 
 .message.sent {
