@@ -1,65 +1,74 @@
+body {
+    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
 
 .threads {
-	position: fixed;
-	width: 250px;
-	height: 100%;
-	overflow-y: scroll;
-	background: #EEE;
+    position: fixed;
+    width: 250px;
+    height: 100%;
+    overflow-y: scroll;
+    background: #EEE;
 }
 
 .thread {
-	cursor: pointer;
-	height: 50px;
-	border-bottom: 1px solid #D6D4D4;
-	padding: 15px;
+    cursor: pointer;
+    height: 50px;
+    border-bottom: 1px solid #D6D4D4;
+    padding: 15px;
 }
 
 .main-container {
-	margin: 0 0 0 250px;
+    margin: 0 0 0 250px;
 }
 
 .messages {
-	height: 100%;
-	padding: 10px 10px 50px 10px;
-	overflow-y: scroll;
+    height: 100%;
+    padding: 10px 10px 50px 10px;
+    overflow-y: scroll;
+}
+
+.message-wrapper {
+    float: left;
+    margin: 0 0 15px 0;
+    clear: both;
+}
+
+.message-wrapper.sent {
+    float: right;
 }
 
 .message {
-	float: left;
-	margin: 0 0 15px 0;
-	padding: 15px;
-	clear: both;
-	background: #FFF;
-	border: 1px solid #EEE;
-	border-radius: 4px;
+    padding: 15px;
+    background: #FFF;
+    border: 1px solid #EEE;
+    border-radius: 4px;
 }
 
-.message.sent {
-	background: #E3FFDE;
-	float: right;
+.message-wrapper.sent .message {
+    background: #E3FFDE;
 }
 
 .send-bar {
-	position: fixed;
-	bottom: 0;
-	z-index: 1000;
-	padding: 8px;
-	height: 50px;
-	background: #EEE;
-	border-top: 1px solid #DDD;
+    position: fixed;
+    bottom: 0;
+    z-index: 1000;
+    padding: 8px;
+    height: 50px;
+    background: #EEE;
+    border-top: 1px solid #DDD;
 }
 
 .recv-msg, .sent-msg {
-	height: 50px;
-	background: #EEE;
-	margin: 0 0 10px 0;
-	padding: 10px;
+    height: 50px;
+    background: #EEE;
+    margin: 0 0 10px 0;
+    padding: 10px;
 }
 
 .recv-msg {
-	text-align: left;
+    text-align: left;
 }
 
 .sent-msg {
-	text-align: right;
+    text-align: right;
 }

@@ -9,7 +9,8 @@
 	},
 	"dependencies" : {
 		"ws" : "latest",
-		"lodash" : "latest"
+		"lodash" : "latest",
+		"ejs" : "latest"
 	}
 
 }

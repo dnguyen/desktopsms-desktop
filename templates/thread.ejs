@@ -1,0 +1,9 @@
+<% if (thread.name === '') { %>
+    <div class="thread" data-threadid="<%= thread.id %>">
+        <%= thread.address %>
+    </div>
+<% } else { %>
+    <div class="thread" data-threadid="<%= thread.id %>">
+        <%= thread.name %>
+    </div>
+<% } %>
