@@ -10,7 +10,8 @@
 	"dependencies" : {
 		"ws" : "latest",
 		"lodash" : "latest",
-		"ejs" : "latest"
+		"ejs" : "latest",
+		"moment" : "latest"
 	}
 
 }
