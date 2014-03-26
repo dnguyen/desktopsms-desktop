@@ -5,25 +5,28 @@ $(document).ready(function() {
         _ = require('lodash'),
         ejs = require('ejs'),
         moment = require('moment'),
+        events = require('events'),
+        Emitter = new events.EventEmitter(),
         ThreadsModel = require('./js/models/threads'),
         ThreadsView = require('./js/views/threads');
 
     var ws = new WebSocket('ws://192.168.0.100:9003');
+
+    Emitter.on('getMessages', function(data) {
+        ThreadsModel.build(data);
+
+        var newThreadsView = new ThreadsView({ threads : ThreadsModel.threads });
+        newThreadsView.render();
+    });
 
     ws.on('open', function() {
         ws.send('getMessages');
     });
 
     ws.on('message', function(data, flags) {
-        console.log('recv a message');
-        var data = JSON.parse(data);
-        console.group("JSON DATA");
-        console.log(data);
-        console.groupEnd();
+        var messageHeader = data.substring(0, data.indexOf(':'));
+        var messageData = data.substring(data.indexOf(':') + 1);
 
-        ThreadsModel.build(data);
-        console.log(ThreadsModel.threads);
-        var newThreadsView = new ThreadsView({ threads : ThreadsModel.threads });
-        newThreadsView.render();
+        Emitter.emit(messageHeader, JSON.parse(messageData));
     });
 });
