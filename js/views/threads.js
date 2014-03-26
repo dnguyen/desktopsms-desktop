@@ -1,7 +1,9 @@
 var _ = require('lodash'),
     fs = require('fs'),
-    ejs = require('ejs');
+    ejs = require('ejs'),
+    Emitter = require('../eventEmitter'),
     $ = window.$,
+    ThreadsModel = require('../models/threads'),
     threadTemplate = 'templates/thread.ejs',
     MessagesView = require('./messages');
 
@@ -22,7 +24,7 @@ ThreadsView.prototype.render = function() {
 
     this.setupEvents();
 
-    var messagesView = new MessagesView({ messages : this.threads[this.currentThreadId].messages });
+    var messagesView = new MessagesView({ messages : this.threads[ThreadsModel.currentThreadId].messages });
     messagesView.render();
 };
 
@@ -30,16 +32,18 @@ ThreadsView.prototype.setupEvents = function() {
     var that = this;
 
     $('.thread').on('click', function(e) {
-        if ($(this).attr('data-threadid') != that.currentThreadId) {
-            that.currentThreadId = $(this).attr('data-threadid');
-            var currentThreadObj = _.find(that.threads, function(thread) {
-                return thread.id == that.currentThreadId;
+        var clickedThreadId = $(this).attr('data-threadid');
+
+        if (clickedThreadId != ThreadsModel.currentThreadId) {
+            ThreadsModel.currentThreadId = clickedThreadId;
+            ThreadsModel.currentThreadObj = _.find(that.threads, function(thread) {
+                return thread.id == ThreadsModel.currentThreadId;
             });
 
             console.log('clicked thread');
-            console.log(currentThreadObj);
+            console.log(ThreadsModel.currentThreadObj);
 
-            var messagesView = new MessagesView({ messages : currentThreadObj.messages });
+            var messagesView = new MessagesView({ messages : ThreadsModel.currentThreadObj.messages });
             messagesView.render();
         }
     });

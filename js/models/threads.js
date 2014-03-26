@@ -3,6 +3,7 @@ var _ = require('lodash'),
 
 var Threads = function() {
     this.threads = [];
+    this.currentThreadId = 0;
 };
 
 /**
@@ -54,6 +55,9 @@ Threads.prototype.build = function(data) {
     that.threads = _.sortBy(that.threads, function(thread) {
         return thread.lastMessage;
     }).reverse();
+
+
+    that.currentThreadObj = that.threads[0];
 };
 
 module.exports = new Threads();
