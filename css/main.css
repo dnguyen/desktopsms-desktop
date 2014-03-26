@@ -18,6 +18,14 @@ body {
     padding: 15px;
 }
 
+.thread .name {
+    float: left;
+}
+
+.thread .unread {
+    float: right;
+}
+
 .thread:hover {
     background: #FAFAFA;
 }
