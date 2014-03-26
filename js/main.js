@@ -1,10 +1,10 @@
 
 $(document).ready(function() {
-    var fs = require('fs'),
-        WebSocket = require('ws'),
-        _ = require('lodash'),
-        ejs = require('ejs'),
-        moment = require('moment'),
+    var spinner = new Spinner().spin();
+    $('body').prepend('<div class="overlay"></div>');
+    $('.overlay').append(spinner.el);
+
+    var WebSocket = require('ws'),
         events = require('events'),
         Emitter = new events.EventEmitter(),
         ThreadsModel = require('./js/models/threads'),
@@ -17,6 +17,7 @@ $(document).ready(function() {
 
         var newThreadsView = new ThreadsView({ threads : ThreadsModel.threads });
         newThreadsView.render();
+        $('.overlay').hide();
     });
 
     ws.on('open', function() {

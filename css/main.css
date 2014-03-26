@@ -3,6 +3,19 @@ body {
     font-size: 14px;
 }
 
+.overlay {
+    position: fixed;
+    z-index: 5000;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.overlay .spinner {
+    left: 50%;
+    top: 45%;
+}
+
 .threads {
     position: fixed;
     width: 250px;
