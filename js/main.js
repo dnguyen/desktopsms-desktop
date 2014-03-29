@@ -1,6 +1,29 @@
 
 $(document).ready(function() {
-    var App = { };
+    var app = require('./js/controllers/AppController'),
+        socket = require('./js/core/socket'),
+        emitter = require('./js/eventEmitter');
+
+    // Route message headers to Emitter events.
+    socket.on('message', function(data, flags) {
+        var messageHeader = data.substring(0, data.indexOf(':'));
+        var messageData = data.substring(data.indexOf(':') + 1);
+
+        console.group('Recieved Message: ' + messageHeader);
+        console.log(messageData);
+        console.groupEnd();
+
+        emitter.emit(messageHeader, messageData ? JSON.parse(messageData) : null);
+    });
+
+    // Once WebSocket connection has been made, ask for message data.
+    socket.on('open', function() {
+        socket.send('getMessages');
+    });
+
+
+
+    /*var App = require('./js/controllers/AppController');
 
     var spinner = new Spinner().spin();
     $('body').prepend('<div class="overlay"></div>');
@@ -12,6 +35,8 @@ $(document).ready(function() {
         ThreadsView = require('./js/views/threads');
 
     var ws = new WebSocket('ws://192.168.0.100:9003');
+
+    Emitter.on('changeFocusedThread', App.changeFocusedThread);
 
     Emitter.on('newSMS', function(data) {
 
@@ -51,5 +76,5 @@ $(document).ready(function() {
         Emitter.emit('newSMS', {
             message: $('#message-input').val()
         });
-    });
+    });*/
 });

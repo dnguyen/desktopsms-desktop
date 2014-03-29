@@ -1,41 +1,31 @@
 var _ = require('lodash'),
-    fs = require('fs'),
-    ejs = require('ejs'),
-    moment = require('moment'),
-    Emitter = require('../eventEmitter'),
-    ThreadsModel = require('../models/threads'),
-    $ = window.$;
+    BaseView = require('../core/BaseView'),
+    MessageView = require('./Message');
 
-var MessagesView = function(data) {
-    this.el = $('.messages');
-    this.messages = data.messages;
+var MessagesView = BaseView.extend({
+    initialize: function(options) {
+        console.log('MessagesView initialize');
+        this.emitter.on('show', this.onShow);
+    },
 
-    var that = this;
-    Emitter.on('newSMS', function(data) {
-        var newMessage = ejs.render(fs.readFileSync('templates/message.ejs', 'utf8'), {
-            message : {
-                name: ThreadsModel.currentThreadObj.name,
-                message: data.message,
-                date: moment(new Date()).format('MMM D, h:mmA')
-            },
-            filename: 'templates/message.ejs'
+    render: function() {
+        console.log('MessagesView Render');
+        var that = this;
+        var htmlAppend = '';
+        _.each(this.messages, function(message) {
+            var messageView = new MessageView({
+                message: message
+            });
+            that.el.append(messageView.render().el);
         });
 
-        that.el.append(newMessage);
+        return this;
+    },
 
+    onShow: function() {
+        console.log('show MessagesView');
         window.scrollTo(0, window.document.body.scrollHeight);
-    });
-};
-
-MessagesView.prototype.render = function() {
-    this.el.empty();
-    var messagesHtml = '';
-    _.each(this.messages, function(message) {
-        messagesHtml += ejs.render(fs.readFileSync('templates/message.ejs', 'utf8'), { message : message, filename: 'templates/message.ejs' });
-    });
-    this.el.html('');
-    this.el.append(messagesHtml);
-    window.scrollTo(0, window.document.body.scrollHeight);
-};
+    }
+});
 
 module.exports = MessagesView;

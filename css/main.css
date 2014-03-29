@@ -16,12 +16,15 @@ body {
     top: 45%;
 }
 
-.threads {
+.sidebar {
     position: fixed;
     width: 250px;
     height: 100%;
     overflow-y: scroll;
     background: #EEE;
+}
+
+.threads {
 }
 
 .thread {
@@ -49,8 +52,9 @@ body {
 
 .messages {
     height: 100%;
-    padding: 10px 10px 50px 10px;
-    overflow-y: scroll;
+    padding: 10px 10px 60px 10px;
+    clear: both;
+    overflow: hidden;
 }
 
 .message-wrapper {

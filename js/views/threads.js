@@ -1,6 +1,29 @@
 var _ = require('lodash'),
     fs = require('fs'),
     ejs = require('ejs'),
+    extend = require('../core/extend'),
+    BaseView = require('../core/BaseView'),
+    ThreadView = require('./ThreadView');
+
+var ThreadsView = BaseView.extend({
+    initialize: function(options) {
+        console.log('initialize ThreadsView');
+    },
+
+    render: function() {
+        var that = this;
+        _.each(this.threads, function(thread) {
+            var threadView = new ThreadView({ data: thread });
+            that.el.append(threadView.render().el);
+        });
+
+        return this;
+    }
+});
+
+/*var _ = require('lodash'),
+    fs = require('fs'),
+    ejs = require('ejs'),
     Emitter = require('../eventEmitter'),
     $ = window.$,
     ThreadsModel = require('../models/threads'),
@@ -25,7 +48,11 @@ ThreadsView.prototype.render = function() {
     this.setupEvents();
 
     var messagesView = new MessagesView({ messages : this.threads[ThreadsModel.currentThreadId].messages });
-    messagesView.render();
+    //console.log(messagesView.render().el);
+    $('.messages').append(messagesView.render().el);
+
+
+    window.scrollTo(0, window.document.body.scrollHeight);
 };
 
 ThreadsView.prototype.setupEvents = function() {
@@ -40,6 +67,8 @@ ThreadsView.prototype.setupEvents = function() {
                 return thread.id == ThreadsModel.currentThreadId;
             });
 
+            Emitter.trigger('changeFocusedThread', ThreadsModel.currentThreadObj);
+
             console.log('clicked thread');
             console.log(ThreadsModel.currentThreadObj);
 
@@ -47,6 +76,6 @@ ThreadsView.prototype.setupEvents = function() {
             messagesView.render();
         }
     });
-};
+};*/
 
 module.exports = ThreadsView;

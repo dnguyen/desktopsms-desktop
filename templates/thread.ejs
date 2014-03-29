@@ -1,15 +1,13 @@
 
-<div class="thread" data-threadid="<%= thread.id %>">
-    <div class="name">
-        <% if (thread.name === '') { %>
-            <%= thread.address %>
-        <% } else { %>
-            <%= thread.name %>
-        <% } %>
-    </div>
-    <% if (thread.unread > 0) { %>
-        <div class="unread">
-            <span class="label label-danger"><%= thread.unread %></span>
-        </div>
+<div class="name">
+    <% if (thread.name === '') { %>
+        <%= thread.address %>
+    <% } else { %>
+        <%= thread.name %>
     <% } %>
 </div>
+<% if (thread.unread > 0) { %>
+    <div class="unread">
+        <span class="label label-danger"><%= thread.unread %></span>
+    </div>
+<% } %>
