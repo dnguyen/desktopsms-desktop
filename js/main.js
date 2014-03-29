@@ -24,10 +24,6 @@ $(document).ready(function() {
 
 
     /*
-    var spinner = new Spinner().spin();
-    $('body').prepend('<div class="overlay"></div>');
-    $('.overlay').append(spinner.el);
-
     $('#send-btn').click(function() {
         ws.send('sendSMS:' + JSON.stringify({ address: ThreadsModel.currentThreadObj.address , message: $('#message-input').val() }));
 

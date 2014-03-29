@@ -6,6 +6,7 @@ var _ = require('lodash'),
     $ = window.$;
 
 var AppController = function() {
+    // Layout contains the  DOM elements and views that will be rendered.
     this.layout = {
         overlay: {
             region: $('.overlay')
@@ -38,13 +39,11 @@ _.extend(AppController.prototype, {
 
     eventHandlers: {
         createThreadsView: function(data) {
-            console.log('createThreadsView');
-            console.log(data);
-
             var threadsController = new ThreadsController({
                 messages: data,
                 el: this.layout.threads.region
             });
+
             var threadsView = threadsController.renderView();
             this.layout.threads.view = threadsView;
             this.layout.threads.region.append(threadsView.el);
@@ -52,8 +51,6 @@ _.extend(AppController.prototype, {
         },
 
         createMessagesView: function(data) {
-            console.log('createMessagesView');
-            console.log(data);
             var messagesController = new MessagesController({
                 el: this.layout.messages.region,
                 thread: data.thread

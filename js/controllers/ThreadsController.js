@@ -12,10 +12,15 @@ var ThreadsController = function(data) {
 };
 
 _.extend(ThreadsController.prototype, {
+
+    /**
+     * Builds the data structure that will store threads and messages.
+     * @param  {array} data - Array of messages returned from the phone.
+     * @return {void}
+     */
     build: function(data) {
         var that = this;
 
-        // Build base threads structure.
         _.each(data, function(message) {
             // If thread hasn't been added to the array already, create it.
             if (!that.threads[message.thread_id]) {
@@ -28,10 +33,12 @@ _.extend(ThreadsController.prototype, {
                 };
             }
 
+            // Increase unread count for the thread if there is an unread message.
             if (message.read == 0) {
                 that.threads[message.thread_id].unread++;
             }
 
+            // Add the message to the proper thread
             that.threads[message.thread_id].messages.push({
                 id: message.id,
                 address: message.address,

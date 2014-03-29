@@ -11,27 +11,33 @@
     <body>
         <div class="overlay"></div>
 
-        <div class="sidebar">
-            <div class="heading">
-                Name
-            </div>
-            <div class="threads">
+        <div class="header">
+            <div class="tools">
+                <a href="settings.html" title="Settings"><span class="glyphicon glyphicon-cog"></span></a>
             </div>
         </div>
 
-        <div class="main-container">
-            <div class="messages">
+        <div class="content">
+            <div class="sidebar">
+                <div class="threads">
+                </div>
             </div>
 
-            <div class="send-bar">
-                <div class="input-group">
-                    <input type="text" id="message-input" class="form-control" placeholder="Send a message">
-                    <span class="input-group-btn">
-                        <button id="send-btn" class="btn btn-primary">Send</button>
-                    </span>
+            <div class="main-container">
+                <div class="messages">
+                </div>
+
+                <div class="send-bar">
+                    <div class="input-group">
+                        <input type="text" id="message-input" class="form-control" placeholder="Send a message">
+                        <span class="input-group-btn">
+                            <button id="send-btn" class="btn btn-primary">Send</button>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
+
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://code.jquery.com/jquery.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->

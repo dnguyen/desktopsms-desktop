@@ -16,6 +16,29 @@ body {
     top: 45%;
 }
 
+.header {
+    position: fixed;
+    width: 100%;
+    height: 50px;
+    background: #3BAFDA;
+    color: #FFF;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(51, 51, 51, 0.43);
+    padding: 15px 10px 15px 10px;
+    font-size: 16px;
+}
+
+.header a {
+    color: #FFF;
+}
+
+.header .tools {
+    float: right;
+}
+
+.content {
+    padding: 50px 0 0 0;
+}
+
 .sidebar {
     position: fixed;
     width: 250px;

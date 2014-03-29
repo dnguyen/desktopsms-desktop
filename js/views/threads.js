@@ -1,7 +1,4 @@
 var _ = require('lodash'),
-    fs = require('fs'),
-    ejs = require('ejs'),
-    extend = require('../core/extend'),
     BaseView = require('../core/BaseView'),
     ThreadView = require('./ThreadView');
 
