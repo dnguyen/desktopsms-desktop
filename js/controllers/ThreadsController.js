@@ -1,5 +1,6 @@
 var _ = require('lodash'),
     moment = require('moment'),
+    Emitter = require('../eventEmitter'),
     ThreadsView = require('../views/Threads');
 
 var ThreadsController = function(data) {

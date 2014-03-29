@@ -7,6 +7,9 @@ var _ = require('lodash'),
 
 var AppController = function() {
     this.layout = {
+        overlay: {
+            region: $('.overlay')
+        },
         threads: {
             region: $('.threads')
         },
@@ -14,8 +17,10 @@ var AppController = function() {
             region: $('.messages')
         }
     };
+
     this.setupEvents();
 
+    emitter.emit('app:showLoadingOverlay');
 };
 
 _.extend(AppController.prototype, {
@@ -24,6 +29,8 @@ _.extend(AppController.prototype, {
         emitter.on('getMessages', this.eventHandlers.createThreadsView.bind(this));
         emitter.on('app:createMessagesView', this.eventHandlers.createMessagesView.bind(this));
         emitter.on('app:switchThread', this.eventHandlers.switchThread.bind(this));
+        emitter.on('app:showLoadingOverlay', this.eventHandlers.showLoadingOverlay.bind(this));
+        emitter.on('app:closeLoadingOverlay', this.eventHandlers.closeLoadingOverlay.bind(this));
     },
 
     initialSetup: function() {
@@ -33,6 +40,7 @@ _.extend(AppController.prototype, {
         createThreadsView: function(data) {
             console.log('createThreadsView');
             console.log(data);
+
             var threadsController = new ThreadsController({
                 messages: data,
                 el: this.layout.threads.region
@@ -55,11 +63,23 @@ _.extend(AppController.prototype, {
             this.layout.messages.view = messagesView;
             this.layout.messages.region.append(messagesView.el);
             messagesView.emitter.emit('show');
+            emitter.emit('app:closeLoadingOverlay');
         },
 
         switchThread: function(data) {
             this.layout.messages.view.remove();
             emitter.emit('app:createMessagesView', data);
+        },
+
+        showLoadingOverlay: function() {
+            this.layout.overlay.region.empty();
+            var spinner = new window.Spinner().spin();
+            this.layout.overlay.region.append(spinner.el);
+        },
+
+        closeLoadingOverlay: function() {
+            this.layout.overlay.region.empty();
+            this.layout.overlay.region.hide();
         }
     }
 });
