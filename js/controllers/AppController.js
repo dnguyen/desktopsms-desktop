@@ -3,6 +3,7 @@ var _ = require('lodash'),
     socket = require('../core/socket'),
     ThreadsController = require('./ThreadsController'),
     MessagesController = require('./MessagesController'),
+    SendBarView = require('../views/SendBar');
     $ = window.$;
 
 var AppController = function() {
@@ -16,10 +17,14 @@ var AppController = function() {
         },
         messages: {
             region: $('.messages')
+        },
+        sendBar: {
+            region: $('.send-bar')
         }
     };
 
     this.setupEvents();
+    this.initialSetup();
 
     emitter.emit('app:showLoadingOverlay');
 };
@@ -32,9 +37,12 @@ _.extend(AppController.prototype, {
         emitter.on('app:switchThread', this.eventHandlers.switchThread.bind(this));
         emitter.on('app:showLoadingOverlay', this.eventHandlers.showLoadingOverlay.bind(this));
         emitter.on('app:closeLoadingOverlay', this.eventHandlers.closeLoadingOverlay.bind(this));
+        emitter.on('app:sendSMS', this.eventHandlers.sendSMS.bind(this));
     },
 
     initialSetup: function() {
+        var sendBar = new SendBarView();
+        this.layout.sendBar.region.append(sendBar.render().el);
     },
 
     eventHandlers: {
@@ -48,6 +56,7 @@ _.extend(AppController.prototype, {
             this.layout.threads.view = threadsView;
             this.layout.threads.region.append(threadsView.el);
             emitter.emit('app:createMessagesView', { thread: threadsController.threads[0] });
+            this.currentThread = threadsController.threads[0];
         },
 
         createMessagesView: function(data) {
@@ -66,6 +75,8 @@ _.extend(AppController.prototype, {
         switchThread: function(data) {
             this.layout.messages.view.remove();
             emitter.emit('app:createMessagesView', data);
+            this.currentThread = data.thread;
+            $('#message-input').val('');
         },
 
         showLoadingOverlay: function() {
@@ -77,6 +88,15 @@ _.extend(AppController.prototype, {
         closeLoadingOverlay: function() {
             this.layout.overlay.region.empty();
             this.layout.overlay.region.hide();
+        },
+
+        sendSMS: function(data) {
+            console.log('send sms');
+            console.log(this.currentThread);
+            socket.send('sendSMS:' + JSON.stringify({
+                address: this.currentThread.address,
+                message: data.message
+            }));
         }
     }
 });

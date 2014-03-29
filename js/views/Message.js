@@ -8,7 +8,7 @@ var MessageView = BaseView.extend({
     className: 'message-wrapper',
     template: fs.readFileSync(templatePath, 'utf8'),
     events: {
-
+        'click' : 'test'
     },
 
     initialize: function(options) {
@@ -24,6 +24,10 @@ var MessageView = BaseView.extend({
         this.el.append(ejs.render(this.template, { message : this.message }));
 
         return this;
+    },
+
+    test: function() {
+        console.log('click message el');
     }
 });
 

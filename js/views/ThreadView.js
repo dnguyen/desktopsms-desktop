@@ -17,6 +17,8 @@ var ThreadView = BaseView.extend({
     render: function() {
         this.el.attr('data-threadid', this.data.id);
         this.el.append(ejs.render(this.template, { thread: this.data }));
+        this.setupDOMEvents();
+
         return this;
     },
 

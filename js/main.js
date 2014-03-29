@@ -21,18 +21,4 @@ $(document).ready(function() {
         socket.send('getMessages');
     });
 
-
-
-    /*
-    $('#send-btn').click(function() {
-        ws.send('sendSMS:' + JSON.stringify({ address: ThreadsModel.currentThreadObj.address , message: $('#message-input').val() }));
-
-        console.group('Sending SMS');
-        console.log(ThreadsModel.currentThreadObj.address + " - " + $('#message-input').val());
-        console.groupEnd();
-
-        Emitter.emit('newSMS', {
-            message: $('#message-input').val()
-        });
-    });*/
 });

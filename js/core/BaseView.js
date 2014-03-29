@@ -16,7 +16,11 @@ var BaseView = function(options) {
 
     // Give each view their own event emitter
     this.emitter = Emitter;
-    this.setupDOMEvents();
+
+    // Can't setup dom events here...since template for views haven't been added to the el yet.
+    // Need to come up with a way to have a render function that all views call. Instead of each view
+    // defining their own render function.
+    //this.setupDOMEvents();
 
     this.initialize.apply(this, arguments);
 };
@@ -64,14 +68,20 @@ _.extend(BaseView.prototype, {
                     // Bind the event to this.el
                     var bindElement;
                     if (!jqueryEvent) {
-                        jqueryEvent = eventBind;
-                        bindElement = this.el;
+                        bindElement = $(this.el);
+                        jQueryEvent = selector;
                     } else {
-                        console.log('finding')
+                        console.log('finding' + selector);
+                        console.log('in ');
+                        console.log(this.el);
                         bindElement = $(this.el).find(selector);
+                        console.log('found');
+                        console.log(bindElement);
+                        console.log(selector);
+                        selector = jqueryEvent;
                     }
                     //console.log(bindElement);
-                    $(bindElement).on(jqueryEvent, function() {
+                    $(bindElement).on(selector, function() {
                         that[that.events[eventBind]].apply(that, arguments);
                     });
                 };
