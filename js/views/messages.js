@@ -8,7 +8,8 @@ var MessagesView = BaseView.extend({
     initialize: function(options) {
         console.log('MessagesView initialize');
         this.emitter.on('show', this.onShow);
-        Emitter.on('app:sendSMS', this.addNewMessage.bind(this));
+        Emitter.on('app:sendSMS', this.renderNewSentMessage.bind(this));
+        Emitter.on('messages:newMessage', this.renderNewMessage.bind(this));
     },
 
     render: function() {
@@ -28,7 +29,8 @@ var MessagesView = BaseView.extend({
         window.scrollTo(0, window.document.body.scrollHeight);
     },
 
-    addNewMessage: function(data) {
+    // Renders a new message that user sent
+    renderNewSentMessage: function(data) {
         var messageView = new MessageView({
             message: {
                 type: 2,
@@ -39,6 +41,17 @@ var MessagesView = BaseView.extend({
         this.el.append(messageView.render().el);
 
         $('#message-input').val('');
+        window.scrollTo(0, window.document.body.scrollHeight);
+    },
+
+    // Renders new incoming messages
+    renderNewMessage: function(data) {
+        console.log('render new message');
+        var messageView = new MessageView({
+            message: data
+        });
+        this.el.append(messageView.render().el);
+
         window.scrollTo(0, window.document.body.scrollHeight);
     }
 });

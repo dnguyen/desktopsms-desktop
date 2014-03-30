@@ -33,6 +33,8 @@ _.extend(AppController.prototype, {
     setupEvents: function() {
         // Use bind so we can change the scope of this to the AppController instead of EventEmitter
         emitter.on('getMessages', this.eventHandlers.createThreadsView.bind(this));
+        emitter.on('incomingSMS', this.eventHandlers.incomingSMS.bind(this));
+
         emitter.on('app:createMessagesView', this.eventHandlers.createMessagesView.bind(this));
         emitter.on('app:switchThread', this.eventHandlers.switchThread.bind(this));
         emitter.on('app:showLoadingOverlay', this.eventHandlers.showLoadingOverlay.bind(this));
@@ -47,16 +49,16 @@ _.extend(AppController.prototype, {
 
     eventHandlers: {
         createThreadsView: function(data) {
-            var threadsController = new ThreadsController({
+            this.threadsController = new ThreadsController({
                 messages: data,
                 el: this.layout.threads.region
             });
 
-            var threadsView = threadsController.renderView();
+            var threadsView = this.threadsController.renderView();
             this.layout.threads.view = threadsView;
             this.layout.threads.region.append(threadsView.el);
-            emitter.emit('app:createMessagesView', { thread: threadsController.threads[0] });
-            this.currentThread = threadsController.threads[0];
+            emitter.emit('app:createMessagesView', { thread: this.threadsController.threads[0] });
+            this.currentThread = this.threadsController.threads[0];
         },
 
         createMessagesView: function(data) {
@@ -97,6 +99,10 @@ _.extend(AppController.prototype, {
                 address: this.currentThread.address,
                 message: data.message
             }));
+        },
+
+        incomingSMS: function(data) {
+            emitter.emit('threads:newMessage', data);
         }
     }
 });

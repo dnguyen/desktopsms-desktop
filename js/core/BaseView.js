@@ -51,18 +51,11 @@ _.extend(BaseView.prototype, {
             for(var eventBind in this.events) {
                 if (this.events.hasOwnProperty(eventBind)) {
                     var that = this;
-                    //console.log(that.el.find(this.el));
 
                     // Get string up until the first space, this will be the event we're binding to the element
                     var jqueryEvent = eventBind.substring(0, eventBind.indexOf(' '));
                     // Get string after first space, this will be the element we're bindng the event to
                     var selector = eventBind.substring(eventBind.indexOf(' ') + 1);
-
-                    /*console.group('Binding Event');
-                    console.log(this.el);
-                    console.log(jqueryEvent);
-                    console.log(selector);
-                    console.groupEnd();*/
 
                     // If no element was given an event to bind to. eg: click, ontouch, etc
                     // Bind the event to this.el
@@ -71,16 +64,10 @@ _.extend(BaseView.prototype, {
                         bindElement = $(this.el);
                         jQueryEvent = selector;
                     } else {
-                        console.log('finding' + selector);
-                        console.log('in ');
-                        console.log(this.el);
                         bindElement = $(this.el).find(selector);
-                        console.log('found');
-                        console.log(bindElement);
-                        console.log(selector);
                         selector = jqueryEvent;
                     }
-                    //console.log(bindElement);
+
                     $(bindElement).on(selector, function() {
                         that[that.events[eventBind]].apply(that, arguments);
                     });
