@@ -102,7 +102,19 @@ _.extend(AppController.prototype, {
         },
 
         incomingSMS: function(data) {
-            emitter.emit('threads:newMessage', data);
+            // Need to find the index of the thread the message belongs to.
+            // Try to match the number with all of the threads
+            var threadIndex = _.findIndex(this.threadsController.threads, function(thread) {
+                return data.number == thread.address;
+            });
+
+            if (threadIndex > -1) {
+                emitter.emit('threads:newMessage', {
+                    currentThreadId: this.currentThread.id,
+                    threadIndex: threadIndex,
+                    message: data
+                });
+            }
         }
     }
 });

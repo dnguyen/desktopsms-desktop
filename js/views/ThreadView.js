@@ -12,6 +12,7 @@ var ThreadView = BaseView.extend({
     },
 
     initialize: function(options) {
+        Emitter.on('thread-' + this.data.id + ':newMessage', this.renderNewMessageNotification.bind(this));
     },
 
     render: function() {
@@ -24,6 +25,19 @@ var ThreadView = BaseView.extend({
 
     clickedThread: function() {
         Emitter.emit('app:switchThread', { thread: this.data });
+
+        // If there are any unread messages, clear them.
+        if (this.data.unread > 0) {
+            this.data.unread = 0;
+            this.el.html(ejs.render(this.template, { thread: this.data }));
+        }
+    },
+
+    // Add unread count notification
+    renderNewMessageNotification: function() {
+        console.log(this.data.name + ' recieved a new message');
+        this.data.unread++;
+        this.el.html(ejs.render(this.template, { thread: this.data }));
     }
 });
 

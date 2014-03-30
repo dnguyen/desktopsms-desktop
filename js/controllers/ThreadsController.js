@@ -78,24 +78,24 @@ _.extend(ThreadsController.prototype, {
     addNewMessage: function(data) {
         console.log('adding new message to a thread');
         console.log(data);
-        // Need to find the thread id the message belongs to.
-        // Just try and match the number with all of the threads
-        //console.log(this.threadsController.threads);
-        var foundThread = _.findIndex(this.threads, function(thread) {
-            return data.number == thread.address;
-        });
+        var newMessage = {
+            name: this.threads[data.threadIndex].name,
+            message: data.message.message,
+            address: data.message.address,
+            type: 1,
+            date: moment(new Date()).format('MMM D, h:mmA')
+        };
 
-        if (foundThread > -1) {
-            var newMessage = {
-                name: this.threads[foundThread].name,
-                message: data.message,
-                address: data.address,
-                type: 1,
-                date: moment(new Date()).format('MMM D, h:mmA')
-            };
+        this.threads[data.threadIndex].messages.push(newMessage);
 
-            this.threads[foundThread].messages.push(newMessage);
+        // If the new message that was recieved is a part of the thread
+        // that we are currently looking at, let the messages view render
+        // the new message.
+        if (data.currentThreadId == this.threads[data.threadIndex].id) {
             Emitter.emit('messages:newMessage', newMessage);
+        } else {
+            // Let the correct thread know that it received a new message
+            Emitter.emit('thread-' + this.threads[data.threadIndex].id + ':newMessage');
         }
     }
 });
