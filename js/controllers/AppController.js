@@ -45,6 +45,9 @@ _.extend(AppController.prototype, {
     initialSetup: function() {
         var sendBar = new SendBarView();
         this.layout.sendBar.region.append(sendBar.render().el);
+        this.lastSMS = {
+            id: -9999
+        };
     },
 
     eventHandlers: {
@@ -75,10 +78,12 @@ _.extend(AppController.prototype, {
         },
 
         switchThread: function(data) {
-            this.layout.messages.view.remove();
-            emitter.emit('app:createMessagesView', data);
-            this.currentThread = data.thread;
-            $('#message-input').val('');
+            if (this.currentThread.id != data.thread.id) {
+                this.layout.messages.view.remove();
+                emitter.emit('app:createMessagesView', data);
+                this.currentThread = data.thread;
+                $('#message-input').val('');
+            }
         },
 
         showLoadingOverlay: function() {
@@ -102,18 +107,22 @@ _.extend(AppController.prototype, {
         },
 
         incomingSMS: function(data) {
-            // Need to find the index of the thread the message belongs to.
-            // Try to match the number with all of the threads
-            var threadIndex = _.findIndex(this.threadsController.threads, function(thread) {
-                return data.number == thread.address;
-            });
-
-            if (threadIndex > -1) {
-                emitter.emit('threads:newMessage', {
-                    currentThreadId: this.currentThread.id,
-                    threadIndex: threadIndex,
-                    message: data
+            console.log(data);
+            if (this.lastSMS.id != data.id) {
+                this.lastSMS = data;
+                // Need to find the index of the thread the message belongs to.
+                // Try to match the number with all of the threads
+                var threadIndex = _.findIndex(this.threadsController.threads, function(thread) {
+                    return data.thread_id == thread.id;
                 });
+
+                if (threadIndex > -1) {
+                    emitter.emit('threads:newMessage', {
+                        currentThreadId: this.currentThread.id,
+                        threadIndex: threadIndex,
+                        message: data
+                    });
+                }
             }
         }
     }

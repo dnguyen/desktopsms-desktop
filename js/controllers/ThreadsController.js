@@ -45,7 +45,7 @@ _.extend(ThreadsController.prototype, {
                 address: message.address,
                 name: message.name,
                 message: message.message,
-                type: message.msgtype,
+                type: message.type,
                 time: message.time,
                 date: moment(new Date(parseInt(message.time))).format('MMM D, h:mmA')
             });
@@ -77,25 +77,22 @@ _.extend(ThreadsController.prototype, {
 
     addNewMessage: function(data) {
         console.log('adding new message to a thread');
-        console.log(data);
-        var newMessage = {
-            name: this.threads[data.threadIndex].name,
-            message: data.message.message,
-            address: data.message.address,
-            type: 1,
-            date: moment(new Date()).format('MMM D, h:mmA')
-        };
+        console.log(data.message);
 
-        this.threads[data.threadIndex].messages.push(newMessage);
+        data.message.date = moment(new Date()).format('MMM D, h:mmA');
+        this.threads[data.threadIndex].messages.push(data.message);
 
         // If the new message that was recieved is a part of the thread
         // that we are currently looking at, let the messages view render
         // the new message.
         if (data.currentThreadId == this.threads[data.threadIndex].id) {
-            Emitter.emit('messages:newMessage', newMessage);
+            Emitter.emit('messages:newMessage', data.message);
         } else {
             // Let the correct thread know that it received a new message
-            Emitter.emit('thread-' + this.threads[data.threadIndex].id + ':newMessage');
+            // Should only increase unread count if the message was a received message.
+            if (data.message.type == 1) {
+                Emitter.emit('thread-' + this.threads[data.threadIndex].id + ':newMessage');
+            }
         }
     }
 });
