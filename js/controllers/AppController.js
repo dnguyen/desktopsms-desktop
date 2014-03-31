@@ -107,7 +107,6 @@ _.extend(AppController.prototype, {
         },
 
         incomingSMS: function(data) {
-            console.log(data);
             if (this.lastSMS.id != data.id) {
                 this.lastSMS = data;
                 // Need to find the index of the thread the message belongs to.

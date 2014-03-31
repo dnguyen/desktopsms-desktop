@@ -8,7 +8,7 @@ var MessagesView = BaseView.extend({
     initialize: function(options) {
         console.log('MessagesView initialize');
         this.emitter.on('show', this.onShow);
-        Emitter.on('app:sendSMS', this.renderNewSentMessage.bind(this));
+        Emitter.on('app:sendSMS', this.renderPendingMessage.bind(this));
         Emitter.on('messages:newMessage', this.renderNewMessage.bind(this));
     },
 
@@ -21,7 +21,7 @@ var MessagesView = BaseView.extend({
             });
             that.el.append(messageView.render().el);
         });
-
+        
         return this;
     },
 
@@ -30,15 +30,10 @@ var MessagesView = BaseView.extend({
     },
 
     // Renders a new message that user sent
-    renderNewSentMessage: function(data) {
-        var messageView = new MessageView({
-            message: {
-                type: 2,
-                message: data.message,
-                date: moment(new Date()).format('MMM D, h:mmA')
-            }
-        });
-        this.el.append(messageView.render().el);
+    renderPendingMessage: function() {
+        var PendingView = require('./PendingMessage');
+        var pendingView = new PendingView();
+        this.el.append(pendingView.render().el);
 
         $('#message-input').val('');
         window.scrollTo(0, window.document.body.scrollHeight);
@@ -47,6 +42,7 @@ var MessagesView = BaseView.extend({
     // Renders new incoming messages
     renderNewMessage: function(data) {
         console.log('render new message');
+        $('.pending-message').remove();
         var messageView = new MessageView({
             message: data
         });

@@ -28,6 +28,7 @@ var BaseView = function(options) {
 _.extend(BaseView.prototype, {
     tag: 'div',
     initialize: function(options) {
+        console.log('initialize base view');
     },
 
     remove: function() {
